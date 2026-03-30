@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Dakari UISH">
+<!-- ✦ 44616b617269205549534800 -->
+<title>UISH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Fira+Code:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;700&family=Syne+Mono&display=swap" rel="stylesheet">
+<style>
+/* Dakari UISH · 44616b617269205549534800 · session-id HKDF namespace */
+:root {
+  --bg:      #040608;
+  --bg2:     #080b0f;
+  --bg3:     #0c1018;
+  --ink:     #29ffa4;
+  --inkdim:  #1aaa6e;
+  --inkfaint:#041a0e;
+  --red:     #ff4060;
+  --amber:   #ffcc00;
+  --text:    #a8e8c8;
+  --tdim:    #2e5a44;
+  --border:  #101c14;
+  --author:  'Dakari UISH';
+}
+
+/* ─── THEME TRANSITION ──────────────────────────────────────────── */
+body.theme-tx,body.theme-tx * {
+  transition:background .4s,color .35s,border-color .35s,box-shadow .35s,fill .35s !important;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Fira Code',monospace;position:relative;}
+
+/* ─── AMBIENT LAYER ─────────────────────────────────────────────── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(color-mix(in srgb,var(--ink) 2%,transparent) 1px,transparent 1px),
+    linear-gradient(90deg,color-mix(in srgb,var(--ink) 2%,transparent) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;z-index:0;
+  transition:opacity .4s;
+}
+body.no-grid::before{opacity:0;}
+body::after{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,transparent 40%,rgba(0,0,0,.65) 100%);
+  pointer-events:none;z-index:0;transition:opacity .4s;
+}
+body.no-vig::after{opacity:0;}
+body.light-theme::after{background:radial-gradient(ellipse at 50% 0%,transparent 40%,rgba(200,200,180,.25) 100%);}
+
+/* ─── GLOW SUPPRESSION ──────────────────────────────────────────── */
+body.no-glow .wordmark,body.no-glow .phrase,body.no-glow .done-ttl{text-shadow:none!important;}
+body.no-glow .dot.on{box-shadow:none!important;}
+body.no-glow .qb.lit{box-shadow:none!important;}
+body.no-glow .pb{box-shadow:none!important;}
+body.no-glow .step.cur .snum{box-shadow:none!important;}
+body.no-glow .gear-btn:hover svg{filter:none!important;}
+
+/* ─── LAYOUT MODIFIERS ──────────────────────────────────────────── */
+body.lay-minimal::before{background-image:none;}
+body.lay-minimal .card::before{display:none;}
+body.lay-minimal .mark-glyph{display:none;}
+body.lay-minimal .ch-strip,.lay-minimal .ch-lbl,.lay-minimal .badge{display:none;}
+body.lay-minimal .log{max-height:80px;}
+body.lay-minimal .wrap{padding:20px 28px 80px;}
+body.lay-minimal .hdr{padding:10px 28px;}
+body.lay-minimal .steps{margin-bottom:14px;}
+body.lay-minimal .card{padding:16px 18px;margin-bottom:10px;}
+
+body.lay-compact .wrap{max-width:100%;padding:10px 18px 60px;}
+body.lay-compact .card{padding:11px 14px;margin-bottom:7px;}
+body.lay-compact .hdr{padding:9px 18px;}
+body.lay-compact .steps{margin-bottom:12px;}
+body.lay-compact .log{max-height:90px;font-size:9px;}
+body.lay-compact .hint{font-size:10px;line-height:1.6;margin-bottom:8px;}
+body.lay-compact .inp{padding:7px 10px;font-size:11px;}
+body.lay-compact .btn{padding:7px 14px;font-size:9px;}
+body.lay-compact .phrase{font-size:13px;padding:11px 14px;}
+body.lay-compact .stats{grid-template-columns:repeat(4,1fr);gap:5px;}
+body.lay-compact .stat{padding:7px;}
+body.lay-compact .sv{font-size:12px;}
+body.lay-compact .sl2{font-size:7px;}
+body.lay-compact .wordmark{font-size:17px;letter-spacing:6px;}
+
+body.dens-compact .card{padding:10px 12px;margin-bottom:6px;}
+body.dens-compact .wrap{padding-top:16px;}
+body.dens-spacious .card{padding:28px;margin-bottom:24px;}
+body.dens-spacious .wrap{padding:48px 48px 100px;}
+
+/* ─── HEADER ─────────────────────────────────────────────────────── */
+.hdr{
+  position:sticky;top:0;z-index:200;
+  background:rgba(4,6,8,.92);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  padding:14px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .4s,border-color .35s;
+}
+body.light-theme .hdr{background:rgba(236,232,223,.94);}
+
+.mark{display:flex;align-items:center;gap:14px;}
+.mark-glyph{
+  width:30px;height:30px;border:1px solid var(--inkdim);border-radius:2px;
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+}
+.mark-glyph::before{
+  content:'';position:absolute;width:18px;height:1px;
+  background:var(--ink);transform:rotate(45deg);box-shadow:0 0 6px var(--ink);
+}
+.mark-glyph::after{
+  content:'';position:absolute;width:18px;height:1px;
+  background:var(--inkdim);transform:rotate(-45deg);
+}
+.wordmark{
+  font-family:'Syne Mono',monospace;font-size:21px;letter-spacing:7px;color:var(--ink);
+  text-shadow:0 0 22px rgba(41,255,164,.3);transition:text-shadow .4s,color .35s;
+}
+
+.hdr-right{display:flex;align-items:center;gap:12px;}
+
+.status{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:2px;color:var(--tdim);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--tdim);transition:background .3s,box-shadow .3s;}
+.dot.on{background:var(--ink);box-shadow:0 0 8px var(--ink);animation:pulse 2s ease-in-out infinite;}
+.dot.err{background:var(--red);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.qbars{display:flex;align-items:flex-end;gap:2px;height:13px;}
+.qb{width:3px;background:var(--border);border-radius:1px;transition:background .3s;}
+.qb:nth-child(1){height:25%}.qb:nth-child(2){height:50%}.qb:nth-child(3){height:75%}.qb:nth-child(4){height:100%}
+.qb.lit{background:var(--ink);}
+.cbadge{font-size:8px;letter-spacing:1px;padding:2px 7px;border:1px solid var(--border);border-radius:1px;color:var(--tdim);transition:all .2s;}
+.cbadge.direct{border-color:var(--inkdim);color:var(--ink);}
+.cbadge.relay{border-color:var(--amber);color:var(--amber);}
+
+/* ─── GEAR BUTTON ────────────────────────────────────────────────── */
+.gear-btn{
+  background:transparent;border:1px solid var(--border);border-radius:2px;
+  padding:7px 9px;cursor:pointer;color:var(--tdim);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .2s,color .2s;
+}
+.gear-btn:hover{border-color:var(--inkdim);color:var(--ink);}
+.gear-btn:hover svg{filter:drop-shadow(0 0 4px var(--ink));}
+.gear-btn svg{
+  display:block;
+  animation:gear-idle 14s linear infinite;
+  transition:animation-duration .4s;
+}
+.gear-btn:hover svg{animation-duration:3s;}
+.gear-btn.settings-open{border-color:var(--ink);color:var(--ink);}
+@keyframes gear-idle{to{transform:rotate(360deg);}}
+
+/* ─── SETTINGS BACKDROP ──────────────────────────────────────────── */
+.sp-bd{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.45);backdrop-filter:blur(5px);
+  z-index:400;opacity:0;pointer-events:none;
+  transition:opacity .3s;
+}
+.sp-bd.open{opacity:1;pointer-events:auto;}
+
+/* ─── SETTINGS PANEL ─────────────────────────────────────────────── */
+.sp{
+  position:fixed;top:0;right:0;bottom:0;width:340px;max-width:100vw;
+  background:var(--bg2);border-left:1px solid var(--border);
+  z-index:500;
+  transform:translateX(100%);
+  transition:transform .38s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;overflow-x:hidden;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+.sp.open{transform:translateX(0);}
+
+.sp-hdr{
+  position:sticky;top:0;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  z-index:10;
+}
+.sp-title{font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--ink);}
+.sp-close{
+  background:transparent;border:1px solid var(--border);border-radius:2px;
+  color:var(--tdim);font-family:'Syne Mono',monospace;font-size:9px;letter-spacing:2px;
+  padding:4px 10px;cursor:pointer;transition:all .15s;
+}
+.sp-close:hover{border-color:var(--red);color:var(--red);}
+
+.sp-section{padding:18px;border-bottom:1px solid var(--border);}
+.sp-section:last-child{border-bottom:none;}
+.sp-sl{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--tdim);margin-bottom:12px;}
+.sp-sl::before{content:'// ';color:var(--inkdim);}
+
+/* ─── THEME SWATCHES ─────────────────────────────────────────────── */
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+.tswatch{
+  cursor:pointer;border-radius:2px;overflow:hidden;
+  border:1px solid transparent;
+  transition:border-color .2s,transform .15s,box-shadow .2s;
+  position:relative;
+}
+.tswatch:hover{transform:translateY(-2px);}
+.tswatch.active{border-color:var(--ink)!important;}
+.tswatch.active .tsw-check{opacity:1;}
+.tsw-check{
+  position:absolute;top:3px;right:4px;
+  font-size:7px;color:var(--ink);opacity:0;transition:opacity .2s;
+}
+.tsw-prev{
+  height:50px;padding:6px 7px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.tsw-wm{font-family:'Syne Mono',monospace;font-size:6px;letter-spacing:2px;}
+.tsw-bars{display:flex;flex-direction:column;gap:2px;}
+.tsw-bar{height:2px;border-radius:1px;}
+.tsw-name{
+  font-family:'Syne Mono',monospace;font-size:7px;letter-spacing:1px;
+  padding:4px 6px;text-align:center;text-transform:uppercase;
+}
+
+/* Secret reveal animation */
+@keyframes sovereign-reveal{
+  0%{opacity:0;transform:scale(.7) translateY(8px);}
+  60%{transform:scale(1.06) translateY(-2px);}
+  100%{opacity:1;transform:scale(1) translateY(0);}
+}
+.tswatch.s-reveal{animation:sovereign-reveal .65s cubic-bezier(.2,0,.2,1) forwards;}
+.sovereign-badge{
+  display:inline-block;font-size:7px;letter-spacing:1px;
+  padding:1px 6px;border:1px solid gold;color:gold;
+  border-radius:1px;background:rgba(212,175,55,.08);margin-left:4px;
+}
+.secret-hint{font-size:8px;color:var(--tdim);text-align:center;margin-top:10px;letter-spacing:1px;opacity:.5;}
+
+/* ─── LAYOUT OPTIONS ─────────────────────────────────────────────── */
+.layout-opts{display:flex;flex-direction:column;gap:7px;}
+.lopt{
+  padding:11px 12px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:2px;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:12px;
+}
+.lopt:hover{border-color:var(--inkdim);}
+.lopt.active{border-color:var(--ink);background:var(--inkfaint);}
+.lopt-diagram{flex-shrink:0;opacity:.8;}
+.lopt.active .lopt-diagram{opacity:1;}
+.lopt-name{font-family:'Syne Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--ink);margin-bottom:2px;}
+.lopt-desc{font-size:8px;color:var(--tdim);}
+
+/* ─── FONT OPTIONS ───────────────────────────────────────────────── */
+.font-opts{display:flex;flex-direction:column;gap:6px;}
+.fopt{
+  padding:9px 12px;background:var(--bg3);border:1px solid var(--border);
+  border-radius:2px;cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.fopt:hover{border-color:var(--inkdim);}
+.fopt.active{border-color:var(--ink);}
+.fopt-name{font-size:10px;color:var(--text);}
+.fopt-sample{font-size:10px;color:var(--tdim);}
+
+/* ─── TOGGLES ────────────────────────────────────────────────────── */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;}
+.toggle-lbl{font-size:9px;color:var(--text);}
+.tog{
+  width:30px;height:15px;border-radius:8px;
+  background:var(--border);border:none;cursor:pointer;
+  position:relative;transition:background .25s;flex-shrink:0;
+}
+.tog.on{background:var(--inkdim);}
+.tog::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:11px;height:11px;border-radius:50%;
+  background:var(--tdim);transition:all .25s;
+}
+.tog.on::after{left:17px;background:var(--ink);}
+
+/* ─── DENSITY SLIDER ─────────────────────────────────────────────── */
+.dens-slider{
+  -webkit-appearance:none;width:100%;height:2px;
+  border-radius:1px;background:var(--border);outline:none;margin-top:10px;cursor:pointer;
+}
+.dens-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:13px;height:13px;border-radius:50%;
+  background:var(--ink);cursor:pointer;box-shadow:0 0 8px var(--ink);transition:box-shadow .2s;
+}
+.dens-slider:hover::-webkit-slider-thumb{box-shadow:0 0 14px var(--ink);}
+.dens-labels{display:flex;justify-content:space-between;margin-top:5px;}
+.dens-lbl{font-size:8px;color:var(--tdim);}
+
+/* ─── IDENTITY PANEL ─────────────────────────────────────────────── */
+.ident-block{font-size:9px;color:var(--tdim);line-height:1.9;}
+.ident-block .hl{color:var(--ink);}
+
+/* ─── MAIN WRAP ──────────────────────────────────────────────────── */
+.wrap{max-width:820px;margin:0 auto;padding:30px 40px 100px;position:relative;z-index:1;}
+
+/* ─── TABS ───────────────────────────────────────────────────────── */
+.tabs{display:flex;border:1px solid var(--border);border-radius:2px;overflow:hidden;margin-bottom:30px;}
+.tab{
+  flex:1;padding:12px;font-family:'Syne Mono',monospace;font-size:11px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--tdim);background:transparent;border:none;
+  border-right:1px solid var(--border);cursor:pointer;transition:all .15s;
+}
+.tab:last-child{border-right:none;}
+.tab:hover{color:var(--ink);background:var(--inkfaint);}
+.tab.on{color:var(--ink);background:var(--inkfaint);box-shadow:inset 0 -2px 0 var(--ink);}
+.panel{display:none;}.panel.on{display:block;}
+
+/* ─── STEPS ──────────────────────────────────────────────────────── */
+.steps{display:flex;margin-bottom:26px;position:relative;}
+.steps::before{content:'';position:absolute;top:12px;left:22px;right:22px;height:1px;background:var(--border);}
+.step{flex:1;text-align:center;position:relative;}
+.snum{
+  width:24px;height:24px;border-radius:50%;border:1px solid var(--border);
+  background:var(--bg);color:var(--tdim);font-size:10px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 6px;transition:all .25s;
+}
+.slbl{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--tdim);}
+.step.cur .snum{border-color:var(--ink);color:var(--ink);background:var(--inkfaint);box-shadow:0 0 12px rgba(41,255,164,.2);}
+.step.cur .slbl{color:var(--ink);}
+.step.done .snum{border-color:var(--ink);background:var(--ink);color:var(--bg);}
+.step.done .slbl{color:var(--inkdim);}
+
+/* ─── CARDS ──────────────────────────────────────────────────────── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:20px;margin-bottom:15px;position:relative;}
+.card::before{content:'';position:absolute;top:0;left:0;width:2px;height:100%;background:linear-gradient(180deg,var(--inkdim) 0%,transparent 100%);}
+.sl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--tdim);margin-bottom:11px;}
+.sl::before{content:'// ';color:var(--inkdim);}
+.hint{font-size:11px;color:var(--tdim);line-height:1.8;margin-bottom:11px;}
+hr.div{border:none;border-top:1px solid var(--border);margin:14px 0;}
+
+/* ─── PHRASE ─────────────────────────────────────────────────────── */
+.phrase{
+  background:#000;border:1px solid var(--inkdim);border-radius:2px;
+  padding:16px 20px;font-family:'Syne Mono',monospace;font-size:16px;
+  color:var(--ink);letter-spacing:3px;text-align:center;cursor:pointer;
+  transition:border-color .15s,box-shadow .15s;margin:11px 0;position:relative;
+  text-shadow:0 0 14px rgba(41,255,164,.4);user-select:all;
+}
+.phrase:hover{border-color:var(--ink);box-shadow:0 0 18px rgba(41,255,164,.1);}
+.phrase small{position:absolute;bottom:-16px;right:0;font-size:8px;color:var(--tdim);letter-spacing:1px;}
+
+/* ─── BUTTONS ────────────────────────────────────────────────────── */
+.btn{padding:9px 20px;font-family:'Syne Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid;border-radius:2px;cursor:pointer;background:transparent;transition:all .15s;white-space:nowrap;}
+.bp{border-color:var(--ink);color:var(--ink);}
+.bp:hover{background:var(--ink);color:var(--bg);box-shadow:0 0 14px rgba(41,255,164,.25);}
+.bp:disabled{border-color:var(--border);color:var(--tdim);cursor:not-allowed;}
+.bp:disabled:hover{background:transparent;box-shadow:none;}
+.bs{border-color:var(--border);color:var(--tdim);}
+.bs:hover{border-color:var(--inkdim);color:var(--text);}
+.bd{border-color:var(--red);color:var(--red);}
+.bd:hover{background:var(--red);color:#000;}
+.bsm{padding:4px 10px;font-size:8px;}
+.brow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center;}
+
+/* ─── INPUT ──────────────────────────────────────────────────────── */
+.inp{width:100%;background:#000;border:1px solid var(--border);border-radius:2px;padding:10px 12px;color:var(--text);font-family:'Fira Code',monospace;font-size:12px;outline:none;transition:border-color .15s;}
+.inp:focus{border-color:var(--inkdim);}
+.inp::placeholder{color:var(--tdim);}
+textarea.inp{resize:vertical;min-height:78px;line-height:1.6;}
+
+/* ─── ENTROPY ────────────────────────────────────────────────────── */
+.erow{display:flex;align-items:center;gap:10px;margin-top:7px;}
+.elbl{font-size:8px;color:var(--tdim);width:50px;}
+.etrack{flex:1;height:2px;background:var(--border);border-radius:1px;overflow:hidden;}
+.efill{height:100%;border-radius:1px;transition:width .3s,background .3s;}
+.eval{font-size:8px;color:var(--tdim);width:42px;text-align:right;}
+
+/* ─── DROP ZONE ──────────────────────────────────────────────────── */
+.dz{border:2px dashed var(--border);border-radius:2px;padding:38px 20px;text-align:center;cursor:pointer;transition:all .15s;margin:11px 0;}
+.dz:hover,.dz.ov{border-color:var(--inkdim);background:var(--inkfaint);}
+.dz-ico{font-size:22px;margin-bottom:9px;opacity:.5;}
+.dz p{color:var(--tdim);font-size:10px;}
+.dz p strong{color:var(--inkdim);}
+
+/* ─── FILE INFO ──────────────────────────────────────────────────── */
+.fi{display:flex;align-items:center;gap:11px;padding:9px 12px;background:#000;border:1px solid var(--inkdim);border-radius:2px;margin-bottom:11px;}
+.fn{flex:1;font-size:11px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fsz{font-size:9px;color:var(--tdim);}
+
+/* ─── PROGRESS ───────────────────────────────────────────────────── */
+.pw{background:#000;border:1px solid var(--border);height:4px;border-radius:1px;overflow:hidden;margin:9px 0;}
+.pb{height:100%;background:var(--ink);width:0%;transition:width .2s;box-shadow:0 0 7px var(--ink);}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:11px 0;}
+.stat{background:#000;border:1px solid var(--border);padding:9px;text-align:center;}
+.sv{font-family:'Syne Mono',monospace;font-size:14px;color:var(--ink);margin-bottom:3px;}
+.sl2{font-size:7px;letter-spacing:2px;color:var(--tdim);text-transform:uppercase;}
+
+/* ─── FINGERPRINT ────────────────────────────────────────────────── */
+.fpg{display:grid;grid-template-columns:repeat(8,1fr);gap:3px;margin:9px 0;}
+.fpc{aspect-ratio:1;border-radius:1px;}
+.fph{font-family:'Syne Mono',monospace;font-size:11px;color:var(--ink);margin-top:5px;letter-spacing:3px;}
+
+/* ─── BADGE ──────────────────────────────────────────────────────── */
+.badge{display:inline-block;padding:2px 6px;font-size:7px;letter-spacing:1px;text-transform:uppercase;border-radius:1px;}
+.bg{background:var(--inkfaint);color:var(--ink);border:1px solid var(--inkdim);}
+
+/* ─── LOG ────────────────────────────────────────────────────────── */
+.log{background:#000;border:1px solid var(--border);border-radius:2px;padding:11px;font-size:10px;color:var(--tdim);max-height:150px;overflow-y:auto;margin-top:14px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.le{display:flex;gap:9px;margin-bottom:2px;line-height:1.6;}
+.lt{color:var(--inkdim);flex-shrink:0;}
+.le.ok span:last-child{color:var(--ink);}
+.le.er span:last-child{color:var(--red);}
+.le.wn span:last-child{color:var(--amber);}
+
+/* ─── CHANNEL STRIP ──────────────────────────────────────────────── */
+.ch-strip{display:flex;gap:4px;margin-top:9px;}
+.ch{flex:1;height:3px;border-radius:1px;background:var(--border);transition:background .15s,box-shadow .15s;}
+.ch.active{background:var(--ink);box-shadow:0 0 6px var(--ink);}
+.ch-lbl{font-size:7px;letter-spacing:1px;color:var(--tdim);margin-top:3px;}
+
+/* ─── PANIC ──────────────────────────────────────────────────────── */
+.panic{position:fixed;bottom:18px;right:18px;z-index:300;}
+
+/* ─── MISC ───────────────────────────────────────────────────────── */
+.h{display:none!important;}
+.done-box{text-align:center;padding:22px;}
+.done-ico{font-size:34px;margin-bottom:11px;}
+.done-ttl{font-family:'Syne Mono',monospace;font-size:14px;color:var(--ink);margin-bottom:13px;text-shadow:0 0 16px rgba(41,255,164,.4);}
+@keyframes cur{0%,100%{opacity:1}50%{opacity:0}}
+.cur::after{content:'_';animation:cur 1s infinite;color:var(--ink);}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ────────────────────────────────────────────────────── -->
+<div class="hdr">
+  <div class="mark">
+    <div class="mark-glyph"></div>
+    <div class="wordmark">UISH</div>
+  </div>
+  <div class="hdr-right">
+    <div class="status">
+      <div class="dot" id="dot"></div>
+      <span id="stxt">OFFLINE</span>
+      <span class="cbadge" id="cbadge"></span>
+      <div class="qbars">
+        <div class="qb" id="q1"></div><div class="qb" id="q2"></div>
+        <div class="qb" id="q3"></div><div class="qb" id="q4"></div>
+      </div>
+    </div>
+    <!-- GEAR -->
+    <button class="gear-btn" id="gearBtn" onclick="openSP()" title="Settings">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- ─── SETTINGS BACKDROP ─────────────────────────────────────────── -->
+<div class="sp-bd" id="spBd" onclick="closeSP()"></div>
+
+<!-- ─── SETTINGS PANEL ────────────────────────────────────────────── -->
+<div class="sp" id="sp">
+  <div class="sp-hdr">
+    <span class="sp-title">SETTINGS</span>
+    <button class="sp-close" onclick="closeSP()">ESC ✕</button>
+  </div>
+
+  <!-- THEMES -->
+  <div class="sp-section">
+    <div class="sp-sl">Theme</div>
+    <div class="theme-grid" id="themeGrid"></div>
+    <div class="secret-hint" id="secretHint">∷ classified themes exist</div>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="sp-section">
+    <div class="sp-sl">Layout</div>
+    <div class="layout-opts" id="layoutOpts"></div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="sp-section">
+    <div class="sp-sl">Typography</div>
+    <div class="font-opts" id="fontOpts"></div>
+  </div>
+
+  <!-- EFFECTS -->
+  <div class="sp-section">
+    <div class="sp-sl">Effects</div>
+    <div class="toggle-row">
+      <span class="toggle-lbl">Grid background</span>
+      <button class="tog on" id="togGrid" onclick="togFx('grid')"></button>
+    </div>
+    <div class="toggle-row" style="margin-top:7px">
+      <span class="toggle-lbl">Vignette overlay</span>
+      <button class="tog on" id="togVig" onclick="togFx('vig')"></button>
+    </div>
+    <div class="toggle-row" style="margin-top:7px">
+      <span class="toggle-lbl">Glow &amp; bloom</span>
+      <button class="tog on" id="togGlow" onclick="togFx('glow')"></button>
+    </div>
+  </div>
+
+  <!-- DENSITY -->
+  <div class="sp-section">
+    <div class="sp-sl">Density</div>
+    <input type="range" class="dens-slider" id="densR" min="0" max="2" step="1" value="1" oninput="onDens(this.value)">
+    <div class="dens-labels">
+      <span class="dens-lbl">COMPACT</span>
+      <span class="dens-lbl" id="densLbl" style="color:var(--ink)">BALANCED</span>
+      <span class="dens-lbl">SPACIOUS</span>
+    </div>
+  </div>
+
+  <!-- IDENTITY -->
+  <div class="sp-section">
+    <div class="sp-sl">Identity</div>
+    <div class="ident-block">
+      UISH · Unnamed Inviolable Secure Handshake<br>
+      Author mark: <span class="hl">44616b617269</span><br>
+      Baked into every session ID derivation<br>
+      Settings persist for this session only
+    </div>
+  </div>
+</div>
+
+<!-- ─── MAIN ──────────────────────────────────────────────────────── -->
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab on" onclick="sw('send')">⟶&ensp;SEND</button>
+    <button class="tab"    onclick="sw('recv')">⟵&ensp;RECEIVE</button>
+  </div>
+
+  <!-- ═══ SEND ═══ -->
+  <div class="panel on" id="pSend">
+    <div class="steps">
+      <div class="step cur" id="ss1"><div class="snum">1</div><div class="slbl">Phrase</div></div>
+      <div class="step"    id="ss2"><div class="snum">2</div><div class="slbl">Handshake</div></div>
+      <div class="step"    id="ss3"><div class="snum">3</div><div class="slbl">Verify</div></div>
+      <div class="step"    id="ss4"><div class="snum">4</div><div class="slbl">Transfer</div></div>
+    </div>
+
+    <div id="s1">
+      <div class="sl">Session Passphrase</div>
+      <div class="card">
+        <p class="hint">Generate a cryptographically secure phrase or enter your own. Share it with the receiver out-of-band.</p>
+        <div class="phrase" id="phBox" onclick="cpPhrase()">
+          <span id="phTxt" class="cur">generating…</span>
+          <small>click to copy</small>
+        </div>
+        <div class="brow">
+          <button class="btn bs" onclick="genPhrase()">↻ REGENERATE</button>
+          <button class="btn bs" onclick="togCustom()">✎ CUSTOM</button>
+        </div>
+        <div id="custWrap" class="h" style="margin-top:13px">
+          <input class="inp" id="custInp" type="text" placeholder="your-phrase-here"
+            autocomplete="off" autocorrect="off" spellcheck="false" oninput="onCust(this.value)">
+          <div class="erow">
+            <span class="elbl">Entropy</span>
+            <div class="etrack"><div class="efill" id="seF" style="width:0%"></div></div>
+            <span class="eval" id="seV">0 bits</span>
+          </div>
+        </div>
+        <div style="margin-top:16px"><button class="btn bp" onclick="sCreate()">CREATE SESSION →</button></div>
+      </div>
+    </div>
+
+    <div id="s2" class="h">
+      <div class="sl">Encrypted Handshake</div>
+      <div class="card">
+        <p class="hint">Send this encrypted offer through any channel. Only the matching phrase can decrypt it.</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <small style="font-size:7px;letter-spacing:2px;color:var(--tdim);text-transform:uppercase">// ENCRYPTED OFFER</small>
+          <button class="btn bs bsm" onclick="cpOffer()">COPY</button>
+        </div>
+        <textarea class="inp" id="offerOut" readonly></textarea>
+        <hr class="div">
+        <p class="hint">Paste the receiver's encrypted answer:</p>
+        <textarea class="inp" id="ansIn" placeholder="Paste encrypted answer…" oninput="chkAns()"></textarea>
+        <div style="margin-top:10px"><button class="btn bp" id="btnAns" onclick="sAns()" disabled>CONNECT →</button></div>
+      </div>
+    </div>
+
+    <div id="s3" class="h">
+      <div class="sl">Session Fingerprint</div>
+      <div class="card">
+        <p class="hint">Verbally confirm with receiver — <strong style="color:var(--ink)">exact same pattern</strong>. Any mismatch: abort immediately.</p>
+        <div class="fpg" id="sFpG"></div>
+        <div class="fph" id="sFpH"></div>
+        <div class="brow" style="margin-top:16px">
+          <button class="btn bp" onclick="sVerOk()">✓ CONFIRMED — PROCEED</button>
+          <button class="btn bd" onclick="panic()">✗ MISMATCH — ABORT</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="s4" class="h">
+      <div class="sl">Transfer</div>
+      <div class="card">
+        <div class="dz" id="dz" ondragover="dvr(event)" ondragleave="dlv(event)" ondrop="ddp(event)" onclick="document.getElementById('fi').click()">
+          <div class="dz-ico">◈</div>
+          <p>Drop file here or <strong>click to select</strong></p>
+          <p style="margin-top:3px;font-size:8px">Any type · 64KB chunks · 4-channel SCTP striping</p>
+        </div>
+        <input type="file" id="fi" class="h" onchange="onFp(this.files[0])">
+        <div id="fInfo" class="h">
+          <div class="fi">
+            <span>◈</span><span class="fn" id="sfn"></span>
+            <span class="fsz" id="sfsz"></span>
+            <button class="btn bs bsm" onclick="clrF()">✕</button>
+          </div>
+          <button class="btn bp" onclick="startSend()">⟶ SEND FILE</button>
+        </div>
+      </div>
+      <div id="sPrg" class="h">
+        <div class="card">
+          <div class="sl">Transfer — 4-Channel SCTP</div>
+          <div class="ch-strip"><div class="ch" id="ch0"></div><div class="ch" id="ch1"></div><div class="ch" id="ch2"></div><div class="ch" id="ch3"></div></div>
+          <div class="ch-lbl">SCTP STREAMS 0–3</div>
+          <div class="pw" style="margin-top:9px"><div class="pb" id="spb"></div></div>
+          <div class="stats">
+            <div class="stat"><div class="sv" id="spc">0%</div><div class="sl2">Complete</div></div>
+            <div class="stat"><div class="sv" id="sspd">—</div><div class="sl2">Speed</div></div>
+            <div class="stat"><div class="sv" id="seta">—</div><div class="sl2">ETA</div></div>
+            <div class="stat"><div class="sv" id="schk">—</div><div class="sl2">Chunks</div></div>
+          </div>
+          <div style="margin-top:8px">
+            <span class="badge bg">🔒 AES-GCM RATCHET</span>
+            <span class="badge bg" style="margin-left:4px">⛓ HASH-CHAIN</span>
+          </div>
+        </div>
+      </div>
+      <div id="sDone" class="h">
+        <div class="card done-box">
+          <div class="done-ico">◈</div>
+          <div class="done-ttl">Transfer Complete</div>
+          <p class="hint">All chunks sent. Ratchet state advanced — past data irrecoverable.</p>
+          <button class="btn bd" onclick="panic()">WIPE SESSION</button>
+        </div>
+      </div>
+    </div>
+    <div class="log" id="sLog"><div class="le"><span class="lt">00:00:00</span><span>UISH initialized · memory-only · entropy pool mixed</span></div></div>
+  </div>
+
+  <!-- ═══ RECEIVE ═══ -->
+  <div class="panel" id="pRecv">
+    <div class="steps">
+      <div class="step cur" id="rs1"><div class="snum">1</div><div class="slbl">Phrase</div></div>
+      <div class="step"    id="rs2"><div class="snum">2</div><div class="slbl">Handshake</div></div>
+      <div class="step"    id="rs3"><div class="snum">3</div><div class="slbl">Verify</div></div>
+      <div class="step"    id="rs4"><div class="snum">4</div><div class="slbl">Receive</div></div>
+    </div>
+
+    <div id="r1">
+      <div class="sl">Enter Passphrase</div>
+      <div class="card">
+        <p class="hint">Enter the phrase from the sender exactly as given.</p>
+        <input class="inp" id="rph" type="text" placeholder="word-word-word-word"
+          autocomplete="off" autocorrect="off" spellcheck="false" oninput="onRph(this.value)">
+        <div class="erow" style="margin-top:7px">
+          <span class="elbl">Entropy</span>
+          <div class="etrack"><div class="efill" id="reF" style="width:0%"></div></div>
+          <span class="eval" id="reV">0 bits</span>
+        </div>
+        <div style="margin-top:14px"><button class="btn bp" id="btnJoin" onclick="rJoin()" disabled>JOIN SESSION →</button></div>
+      </div>
+    </div>
+
+    <div id="r2" class="h">
+      <div class="sl">Paste Sender's Offer</div>
+      <div class="card">
+        <p class="hint">Paste the encrypted offer from the sender:</p>
+        <textarea class="inp" id="offerIn" placeholder="Paste encrypted offer…" oninput="chkOffer()"></textarea>
+        <div style="margin-top:10px"><button class="btn bp" id="btnProc" onclick="rProc()" disabled>GENERATE ANSWER →</button></div>
+      </div>
+      <div id="rAnsS" class="h">
+        <div class="card">
+          <p class="hint">Send this encrypted answer back to the sender:</p>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <small style="font-size:7px;letter-spacing:2px;color:var(--tdim);text-transform:uppercase">// ENCRYPTED ANSWER</small>
+            <button class="btn bs bsm" onclick="cpAns()">COPY</button>
+          </div>
+          <textarea class="inp" id="ansOut" readonly></textarea>
+          <p class="hint" style="margin-top:8px">⏳ Awaiting sender to finalize…</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="r3" class="h">
+      <div class="sl">Session Fingerprint</div>
+      <div class="card">
+        <p class="hint">Confirm with sender — same pattern = authenticated channel.</p>
+        <div class="fpg" id="rFpG"></div>
+        <div class="fph" id="rFpH"></div>
+        <div class="brow" style="margin-top:16px">
+          <button class="btn bp" onclick="rVerOk()">✓ CONFIRMED</button>
+          <button class="btn bd" onclick="panic()">✗ MISMATCH — ABORT</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="r4" class="h">
+      <div class="sl">Receiving</div>
+      <div class="card">
+        <div id="rWait"><p class="hint" style="text-align:center;padding:18px 0">⏳ Waiting for sender…</p></div>
+        <div id="rPrg" class="h">
+          <div class="fi"><span>◈</span><span class="fn" id="rfn"></span><span class="fsz" id="rfsz"></span></div>
+          <div class="ch-strip"><div class="ch" id="rch0"></div><div class="ch" id="rch1"></div><div class="ch" id="rch2"></div><div class="ch" id="rch3"></div></div>
+          <div class="ch-lbl">INBOUND STREAMS</div>
+          <div class="pw" style="margin-top:9px"><div class="pb" id="rpb"></div></div>
+          <div class="stats">
+            <div class="stat"><div class="sv" id="rpc">0%</div><div class="sl2">Complete</div></div>
+            <div class="stat"><div class="sv" id="rspd">—</div><div class="sl2">Speed</div></div>
+            <div class="stat"><div class="sv" id="rchk">0</div><div class="sl2">Chunks</div></div>
+            <div class="stat"><div class="sv" id="rq">0</div><div class="sl2">Pending</div></div>
+          </div>
+          <div style="margin-top:8px"><span class="badge bg">🔒 DECRYPTING IN MEMORY</span></div>
+        </div>
+        <div id="rDone" class="h done-box">
+          <div class="done-ico">◈</div>
+          <div class="done-ttl">Transfer Complete</div>
+          <p class="hint">File lives in RAM only. Save now.</p>
+          <button class="btn bp" id="btnDl">⬇ SAVE FILE</button>
+          <div style="margin-top:10px"><button class="btn bd bsm" onclick="panic()">WIPE MEMORY</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="log" id="rLog"><div class="le"><span class="lt">00:00:00</span><span>UISH receiver ready</span></div></div>
+  </div>
+</div>
+
+<div class="panic"><button class="btn bd" onclick="panic()">⚠ WIPE</button></div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  U I S H  ·  Unnamed Inviolable Secure Handshake               ║
+// ║  Author: 44616b617269 20554953480a                              ║
+// ╚══════════════════════════════════════════════════════════════════╝
+
+const _DK = new Uint8Array([68,97,107,97,114,105,32,85,73,83,72]);
+
+// ══ SETTINGS ENGINE ══════════════════════════════════════════════════
+
+const THEMES = {
+  void: {
+    bg:'#040608',bg2:'#080b0f',bg3:'#0c1018',
+    ink:'#29ffa4',inkdim:'#1aaa6e',inkfaint:'#041a0e',
+    red:'#ff4060',amber:'#ffcc00',text:'#a8e8c8',tdim:'#2e5a44',border:'#101c14',
+    name:'VOID', desc:'Instrument darkness', light:false
+  },
+  phosphor: {
+    bg:'#080600',bg2:'#0f0a00',bg3:'#181200',
+    ink:'#ffb300',inkdim:'#cc8a00',inkfaint:'#1c1100',
+    red:'#ff5533',amber:'#ffe066',text:'#ddb850',tdim:'#5a4218',border:'#221800',
+    name:'PHOSPHOR', desc:'Amber CRT warmth', light:false
+  },
+  obsidian: {
+    bg:'#020408',bg2:'#050810',bg3:'#080d1a',
+    ink:'#7ab8ff',inkdim:'#4a88cc',inkfaint:'#05091a',
+    red:'#ff4466',amber:'#ffcc44',text:'#7aa0c8',tdim:'#284460',border:'#0c1828',
+    name:'OBSIDIAN', desc:'Crystalline cold', light:false
+  },
+  thermal: {
+    bg:'#060100',bg2:'#0d0200',bg3:'#140400',
+    ink:'#ff6600',inkdim:'#cc3300',inkfaint:'#1c0500',
+    red:'#ff0022',amber:'#ffaa00',text:'#ff9966',tdim:'#5a2010',border:'#1e0a00',
+    name:'THERMAL', desc:'Infrared signature', light:false
+  },
+  chalk: {
+    bg:'#ece8df',bg2:'#e4e0d6',bg3:'#dbd7ce',
+    ink:'#1a1a1a',inkdim:'#444444',inkfaint:'#d4d0c6',
+    red:'#cc2222',amber:'#886600',text:'#2a2a2a',tdim:'#6a6a60',border:'#c4c0b4',
+    name:'CHALK', desc:'Classified document', light:true
+  },
+  redacted: {
+    bg:'#020000',bg2:'#070000',bg3:'#0d0000',
+    ink:'#cc0000',inkdim:'#880000',inkfaint:'#120000',
+    red:'#ff2222',amber:'#ff6600',text:'#cc8888',tdim:'#4a1818',border:'#1e0404',
+    name:'REDACTED', desc:'Eyes only', light:false
+  },
+  mercury: {
+    bg:'#020305',bg2:'#060810',bg3:'#0a0d18',
+    ink:'#b8cce0',inkdim:'#7890ac',inkfaint:'#080c18',
+    red:'#ff4466',amber:'#e8cc66',text:'#8aa0c0',tdim:'#344870',border:'#101828',
+    name:'MERCURY', desc:'Liquid metal', light:false
+  }
+};
+
+const SOVEREIGN = {
+  bg:'#040300',bg2:'#090700',bg3:'#100c00',
+  ink:'#d4af37',inkdim:'#9a7920',inkfaint:'#160d00',
+  red:'#cc2200',amber:'#e8a800',text:'#c8a848',tdim:'#5a4010',border:'#1e1600',
+  name:'SOVEREIGN', desc:'∷ for those who know', light:false, secret:true
+};
+
+const LAYOUTS = [
+  {id:'instrument', name:'INSTRUMENT', desc:'Card-based · indicators · default'},
+  {id:'minimal',    name:'MINIMAL',    desc:'Function only · stripped · silent'},
+  {id:'compact',    name:'COMPACT',    desc:'Dense · all visible · power user'}
+];
+
+const FONTS = [
+  {id:'fira',    name:'FIRA CODE',      css:"'Fira Code',monospace",      sample:'fn encrypt()'},
+  {id:'jb',      name:'JETBRAINS MONO', css:"'JetBrains Mono',monospace", sample:'class Ratchet'},
+  {id:'courier', name:'COURIER PRIME',  css:"'Courier Prime',monospace",  sample:'0xDEADBEEF'}
+];
+
+let curTheme='void', curLayout='instrument', curFont='fira';
+let spOpen=false, secretUnlocked=false, keyBuf='', keyTimer=null;
+
+function openSP(){
+  document.getElementById('sp').classList.add('open');
+  document.getElementById('spBd').classList.add('open');
+  document.getElementById('gearBtn').classList.add('settings-open');
+  spOpen=true;
+}
+function closeSP(){
+  document.getElementById('sp').classList.remove('open');
+  document.getElementById('spBd').classList.remove('open');
+  document.getElementById('gearBtn').classList.remove('settings-open');
+  spOpen=false;
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){ closeSP(); return; }
+  if(!spOpen) return;
+  const c=e.key.toLowerCase();
+  if(c.length===1&&c>='a'&&c<='z'){
+    keyBuf+=c; clearTimeout(keyTimer);
+    keyTimer=setTimeout(()=>keyBuf='',2000);
+    if(keyBuf.endsWith('dakari')&&!secretUnlocked){ secretUnlocked=true; revealSovereign(); }
+  }
+});
+
+function revealSovereign(){
+  THEMES.sovereign=SOVEREIGN;
+  const grid=document.getElementById('themeGrid');
+  const sw=makeSwatch('sovereign',SOVEREIGN);
+  sw.classList.add('s-reveal');
+  grid.appendChild(sw);
+  document.getElementById('secretHint').innerHTML=
+    '∷ SOVEREIGN unlocked <span class="sovereign-badge">CLASSIFIED</span>';
+  try{sessionStorage.setItem('uish-sov','1');}catch(e){}
+}
+
+function applyThemeVars(t){
+  const r=document.documentElement.style;
+  r.setProperty('--bg',   t.bg);   r.setProperty('--bg2',  t.bg2);
+  r.setProperty('--bg3',  t.bg3);  r.setProperty('--ink',  t.ink);
+  r.setProperty('--inkdim',t.inkdim); r.setProperty('--inkfaint',t.inkfaint);
+  r.setProperty('--red',  t.red);  r.setProperty('--amber',t.amber);
+  r.setProperty('--text', t.text); r.setProperty('--tdim', t.tdim);
+  r.setProperty('--border',t.border);
+}
+
+function applyTheme(id){
+  const t=THEMES[id]; if(!t) return;
+  curTheme=id;
+  document.body.classList.add('theme-tx');
+  applyThemeVars(t);
+  document.body.classList.toggle('light-theme',!!t.light);
+  setTimeout(()=>document.body.classList.remove('theme-tx'),500);
+  // Update active state in place — no DOM rebuild needed
+  document.querySelectorAll('.tswatch').forEach(el=>{
+    el.classList.toggle('active', el.getAttribute('data-tid')===id);
+  });
+  try{sessionStorage.setItem('uish-theme',id);}catch(e){}
+  log(`Theme → ${t.name}`);
+}
+
+function makeSwatch(id,t){
+  const wrap=document.createElement('div');
+  wrap.className='tswatch'+(id===curTheme?' active':'');
+  wrap.setAttribute('data-tid',id);
+  wrap.title=t.desc;
+  wrap.onclick=()=>applyTheme(id);
+
+  // Mini UI preview
+  const prev=document.createElement('div');
+  prev.className='tsw-prev';
+  prev.style.cssText=`background:${t.bg};border:1px solid ${t.border};`;
+
+  const wm=document.createElement('div');
+  wm.className='tsw-wm'; wm.textContent='UISH'; wm.style.color=t.ink;
+
+  const bars=document.createElement('div');
+  bars.className='tsw-bars';
+  [t.inkdim, t.border, t.border].forEach((c,i)=>{
+    const b=document.createElement('div');
+    b.className='tsw-bar';
+    b.style.cssText=`background:${c};width:${'90% 70% 50%'.split(' ')[i]};`;
+    bars.appendChild(b);
+  });
+
+  // Gold sovereign dot
+  if(t.secret){
+    const dot=document.createElement('div');
+    dot.style.cssText='position:absolute;top:4px;left:4px;width:5px;height:5px;border-radius:50%;background:gold;box-shadow:0 0 6px gold;';
+    wrap.style.position='relative'; wrap.appendChild(dot);
+  }
+
+  prev.appendChild(wm); prev.appendChild(bars);
+
+  const nm=document.createElement('div');
+  nm.className='tsw-name';
+  nm.textContent=t.name;
+  nm.style.cssText=`background:${t.bg2};color:${t.tdim};border-top:1px solid ${t.border};`;
+
+  const chk=document.createElement('div');
+  chk.className='tsw-check'; chk.textContent='✓'; chk.style.color=t.ink;
+
+  wrap.appendChild(prev); wrap.appendChild(nm); wrap.appendChild(chk);
+  return wrap;
+}
+
+function buildSwatches(){
+  const g=document.getElementById('themeGrid'); g.innerHTML='';
+  Object.entries(THEMES).forEach(([id,t])=>{ if(!t.secret) g.appendChild(makeSwatch(id,t)); });
+  try{
+    if(sessionStorage.getItem('uish-sov')==='1'&&!secretUnlocked){
+      secretUnlocked=true; THEMES.sovereign=SOVEREIGN;
+      g.appendChild(makeSwatch('sovereign',SOVEREIGN));
+      document.getElementById('secretHint').innerHTML=
+        '∷ SOVEREIGN unlocked <span class="sovereign-badge">CLASSIFIED</span>';
+    }
+  }catch(e){}
+  if(secretUnlocked&&THEMES.sovereign&&!g.querySelector('[title="'+SOVEREIGN.desc+'"]')){
+    g.appendChild(makeSwatch('sovereign',SOVEREIGN));
+  }
+}
+
+function layoutDiagram(id){
+  const c=`var(--inkdim)`;
+  if(id==='instrument') return `<svg width="26" height="30" viewBox="0 0 26 30"><rect x="0" y="0" width="26" height="7" rx="1" fill="${c}" opacity=".9"/><rect x="0" y="9" width="26" height="7" rx="1" fill="${c}" opacity=".5"/><rect x="0" y="18" width="26" height="7" rx="1" fill="${c}" opacity=".2"/></svg>`;
+  if(id==='minimal')    return `<svg width="26" height="30" viewBox="0 0 26 30"><rect x="1" y="1" width="24" height="28" rx="1" stroke="${c}" stroke-width="1" fill="none"/><line x1="5" y1="9" x2="21" y2="9" stroke="${c}" stroke-width="1" opacity=".6"/><line x1="5" y1="13" x2="17" y2="13" stroke="${c}" stroke-width="1" opacity=".3"/></svg>`;
+  if(id==='compact')    return `<svg width="26" height="30" viewBox="0 0 26 30">${[0,5,10,15,20,25].map((y,i)=>`<rect x="0" y="${y}" width="${[26,20,26,16,22,18][i]}" height="3" rx="1" fill="${c}" opacity="${.7-i*.08}"/>`).join('')}</svg>`;
+  return '';
+}
+
+function buildLayouts(){
+  const c=document.getElementById('layoutOpts'); c.innerHTML='';
+  LAYOUTS.forEach(l=>{
+    const el=document.createElement('div');
+    el.className='lopt'+(l.id===curLayout?' active':'');
+    el.onclick=()=>applyLayout(l.id);
+    el.innerHTML=`<div class="lopt-diagram">${layoutDiagram(l.id)}</div><div class="lopt-info"><div class="lopt-name">${l.name}</div><div class="lopt-desc">${l.desc}</div></div>`;
+    c.appendChild(el);
+  });
+}
+
+function applyLayout(id){
+  curLayout=id;
+  document.body.classList.remove('lay-minimal','lay-compact','lay-instrument');
+  if(id!=='instrument') document.body.classList.add(`lay-${id}`);
+  buildLayouts();
+  try{sessionStorage.setItem('uish-layout',id);}catch(e){}
+  log(`Layout → ${id.toUpperCase()}`);
+}
+
+function buildFonts(){
+  const c=document.getElementById('fontOpts'); c.innerHTML='';
+  FONTS.forEach(f=>{
+    const el=document.createElement('div');
+    el.className='fopt'+(f.id===curFont?' active':'');
+    el.onclick=()=>applyFont(f.id,f.css);
+    el.innerHTML=`<span class="fopt-name" style="font-family:${f.css}">${f.name}</span><span class="fopt-sample" style="font-family:${f.css}">${f.sample}</span>`;
+    c.appendChild(el);
+  });
+}
+
+function applyFont(id,css){
+  curFont=id;
+  document.body.style.fontFamily=css;
+  document.querySelectorAll('.inp').forEach(el=>el.style.fontFamily=css);
+  buildFonts();
+  try{sessionStorage.setItem('uish-font',id);}catch(e){}
+}
+
+function togFx(id){
+  const btn=document.getElementById('tog'+id.charAt(0).toUpperCase()+id.slice(1));
+  btn.classList.toggle('on');
+  const on=btn.classList.contains('on');
+  document.body.classList.toggle('no-'+id,!on);
+}
+
+const densLabels=['COMPACT','BALANCED','SPACIOUS'];
+function onDens(v){
+  document.getElementById('densLbl').textContent=densLabels[v];
+  document.body.classList.remove('dens-compact','dens-spacious');
+  if(v==0) document.body.classList.add('dens-compact');
+  if(v==2) document.body.classList.add('dens-spacious');
+}
+
+function initSettings(){
+  buildSwatches(); buildLayouts(); buildFonts();
+  try{
+    const t=sessionStorage.getItem('uish-theme');
+    const l=sessionStorage.getItem('uish-layout');
+    const f=sessionStorage.getItem('uish-font');
+    if(t&&THEMES[t]) applyTheme(t);
+    if(l) applyLayout(l);
+    if(f){ const font=FONTS.find(x=>x.id===f); if(font) applyFont(font.id,font.css); }
+  }catch(e){}
+}
+
+// ══ WORDLIST ══════════════════════════════════════════════════════════
+const W=['abyss','aegis','agile','aloft','altair','amber','anvil','apex','argon','armor','arson','atlas','axiom','azure','basalt','basil','blade','blaze','boron','brace','braid','brine','brisk','cadence','cairn','cedar','cipher','citadel','clash','cleft','cloak','cobalt','comet','coral','crest','crisp','crown','crypt','delta','dirge','drone','dross','dusk','echo','egret','elder','ember','emery','epoch','equinox','erode','esker','ether','exile','facet','fable','falcon','feral','ferrite','field','flare','flint','floe','flora','fluke','focus','forge','fosse','fractal','frost','fulcrum','gale','gamut','garnet','gauge','gavel','glare','gleam','glyph','gnomon','grain','gravel','graze','grind','grove','guild','guise','gypsum','halo','haven','hazel','helix','herald','heron','hewn','hinge','hollow','hull','ichor','igloo','index','indigo','inert','infer','inlet','iodine','iris','jade','jaunt','joist','joule','keel','kelp','knell','kraken','lance','larva','laser','latch','lava','ledge','lens','lever','limen','linen','lintel','lumen','lunar','lustre','maize','manor','mantle','maple','matrix','maze','meld','mesh','mirth','mist','moat','mortar','morse','mount','murk','nerve','nexus','niche','nimbus','noble','nomad','notch','nova','nymph','oaken','oblong','ocean','onyx','opal','orbit','ozone','pacer','petal','phase','pivot','pixel','plume','polar','prism','prowl','pulse','quasar','quench','quill','quota','radix','raven','realm','relay','relic','resin','rivet','rogue','rover','rowan','rune','sabre','sable','salt','shard','shale','sigma','sinew','slate','sleet','slope','solar','solstice','spark','spire','stave','stern','strobe','surge','swamp','swirl','talon','taper','tempo','thorn','timber','titan','topaz','torch','trace','trench','tropic','truss','tuner','turbo','twine','umbra','unity','urban','vanta','vault','veil','verge','vertex','void','vortex','waltz','warden','warp','wedge','weld','wisp','wrath','xenon','zenith','zephyr'];
+
+// ══ PROTOCOL CONSTANTS ════════════════════════════════════════════════
+const CHUNK=65536, N_CH=4, BUF_LOW=131072;
+
+// ══ STATE ═════════════════════════════════════════════════════════════
+let mode='send', phrase='', keys=null, pc=null, channels=[];
+let recvMeta=null,recvSlab=null,recvBytes=0,recvT0=null,recvPend=new Map(),recvNext=0,recvRatchet=null,dlData=null;
+let sendFile=null, sendT0=null;
+
+// ══ ENTROPY POOL ══════════════════════════════════════════════════════
+async function harvestEntropy(){
+  const pool=new Uint8Array(64); crypto.getRandomValues(pool);
+  for(let i=0;i<8;i++){
+    const t1=performance.now(); await new Promise(r=>setTimeout(r,0)); const t2=performance.now();
+    const j=Math.round((t2-t1)*1e6)&0xffffffff;
+    pool[i*4]^=(j>>>24)&0xff; pool[i*4+1]^=(j>>>16)&0xff;
+    pool[i*4+2]^=(j>>>8)&0xff; pool[i*4+3]^=j&0xff;
+  }
+  const dev=(screen.width*7919)^(screen.height*6271)^(navigator.hardwareConcurrency||4)^Date.now();
+  pool[32]^=(dev>>>24)&0xff; pool[33]^=(dev>>>16)&0xff; pool[34]^=(dev>>>8)&0xff; pool[35]^=dev&0xff;
+  return pool;
+}
+
+// ══ RATCHET ═══════════════════════════════════════════════════════════
+class Ratchet{
+  constructor(seed){this.state=new Uint8Array(seed);}
+  async currentKey(){return crypto.subtle.importKey('raw',this.state,{name:'AES-GCM'},false,['encrypt','decrypt']);}
+  async step(ctPfx16){
+    const d=new Uint8Array(48); d.set(this.state,0); d.set(ctPfx16.slice(0,16),32);
+    const n=await crypto.subtle.digest('SHA-256',d);
+    this.state.fill(0); this.state=new Uint8Array(n);
+  }
+  destroy(){if(this.state){this.state.fill(0);this.state=null;}}
+}
+
+// ══ KEY DERIVATION ════════════════════════════════════════════════════
+// Keys MUST be deterministic from the shared phrase alone.
+// harvestEntropy() is machine-local — it must NEVER enter shared key material.
+// It remains available for local nonce purposes but is not called here.
+async function deriveKeys(ph){
+  const enc=new TextEncoder();
+  const raw=enc.encode(ph);
+  // Import phrase bytes directly — deterministic on both sides
+  const base=await crypto.subtle.importKey('raw',raw,'HKDF',false,['deriveKey','deriveBits']);
+  // Salt: protocol namespace + author mark (Dakari UISH) baked permanently
+  const salt=new Uint8Array([...enc.encode('uish·v2·'),..._DK]);
+  // Signaling key: encrypts SDP offer/answer in transit
+  const sigKey=await crypto.subtle.deriveKey(
+    {name:'HKDF',hash:'SHA-256',salt,info:enc.encode('sig')},
+    base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']
+  );
+  // Ratchet seed: starting state for per-chunk symmetric key chain
+  const rBits=await crypto.subtle.deriveBits(
+    {name:'HKDF',hash:'SHA-256',salt,info:enc.encode('ratchet')},base,256
+  );
+  // Session ID: fingerprint for MITM verification — author mark in info namespace
+  const idInfo=new Uint8Array([...enc.encode('id·'),..._DK]);
+  const idBits=await crypto.subtle.deriveBits(
+    {name:'HKDF',hash:'SHA-256',salt,info:idInfo},base,256
+  );
+  return{sigKey,sessionId:new Uint8Array(idBits),ratchetSeed:new Uint8Array(rBits)};
+}
+
+async function encChunk(data,ratchet,idx,prevD8){
+  const key=await ratchet.currentKey();
+  const nonce=new Uint8Array(12); new DataView(nonce.buffer).setUint32(0,idx,false);
+  const aad=new Uint8Array(12); new DataView(aad.buffer).setUint32(0,idx,false);
+  if(prevD8) aad.set(prevD8.slice(0,8),4);
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv:nonce,additionalData:aad},key,data);
+  const ctA=new Uint8Array(ct); await ratchet.step(ctA); return ctA;
+}
+async function decChunk(data,ratchet,idx,prevD8){
+  const key=await ratchet.currentKey();
+  const nonce=new Uint8Array(12); new DataView(nonce.buffer).setUint32(0,idx,false);
+  const aad=new Uint8Array(12); new DataView(aad.buffer).setUint32(0,idx,false);
+  if(prevD8) aad.set(prevD8.slice(0,8),4);
+  const ctA=data instanceof Uint8Array?data:new Uint8Array(data);
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:nonce,additionalData:aad},key,ctA);
+  await ratchet.step(ctA); return pt;
+}
+async function encSDP(sdp,sk){
+  const iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},sk,new TextEncoder().encode(sdp));
+  const out=new Uint8Array(12+ct.byteLength); out.set(iv); out.set(new Uint8Array(ct),12);
+  return btoa(String.fromCharCode(...out));
+}
+async function decSDP(b64,sk){
+  const buf=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:buf.slice(0,12)},sk,buf.slice(12));
+  return new TextDecoder().decode(pt);
+}
+function drawFP(sid,gId,hId){
+  const g=document.getElementById(gId),h=document.getElementById(hId);
+  g.innerHTML='';
+  for(let i=0;i<16;i++){
+    const r=sid[i*2]||0,gr=sid[(i*2+1)%32]||0,b=sid[(i*2+2)%32]||0;
+    const c=document.createElement('div'); c.className='fpc';
+    c.style.background=`rgb(${r},${Math.max(gr,20)},${b})`; g.appendChild(c);
+  }
+  h.textContent=Array.from(sid.slice(0,8)).map(b=>b.toString(16).padStart(2,'0')).join(' ').toUpperCase();
+}
+
+// ══ ENTROPY DISPLAY ═══════════════════════════════════════════════════
+function entr(s){const c=s.replace(/-/g,''),u=new Set(c).size||1;return Math.round(Math.log2(Math.pow(u,c.length||1)));}
+function showEntr(fId,vId,s){
+  const b=entr(s),pct=Math.min(100,(b/64)*100);
+  const f=document.getElementById(fId); f.style.width=pct+'%';
+  f.style.background=b<24?'var(--red)':b<45?'var(--amber)':'var(--ink)';
+  document.getElementById(vId).textContent=b+' bits';
+}
+
+// ══ PHRASE ════════════════════════════════════════════════════════════
+function genPhrase(){
+  const a=new Uint32Array(4); crypto.getRandomValues(a);
+  phrase=Array.from(a).map(n=>W[n%W.length]).join('-');
+  document.getElementById('phTxt').textContent=phrase;
+  log(`Phrase ready · ${entr(phrase)} bits entropy`);
+}
+function cpPhrase(){
+  if(!phrase) return;
+  navigator.clipboard.writeText(phrase).then(()=>{
+    const b=document.getElementById('phBox');
+    const ink=getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+    b.style.boxShadow=`0 0 22px ${ink}55`;
+    setTimeout(()=>b.style.boxShadow='',700);
+  });
+}
+function togCustom(){document.getElementById('custWrap').classList.toggle('h');}
+function onCust(v){phrase=v;showEntr('seF','seV',v);}
+
+// ══ UI ════════════════════════════════════════════════════════════════
+function sw(m){
+  mode=m;
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('on',(i===0&&m==='send')||(i===1&&m==='recv')));
+  document.getElementById('pSend').classList.toggle('on',m==='send');
+  document.getElementById('pRecv').classList.toggle('on',m==='recv');
+}
+function ts(){const d=new Date(),p=n=>String(n).padStart(2,'0');return`${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;}
+function log(msg,cls='',pane='send'){
+  const el=document.getElementById(pane==='send'?'sLog':'rLog');
+  const r=document.createElement('div'); r.className=`le ${cls}`;
+  r.innerHTML=`<span class="lt">${ts()}</span><span>${msg}</span>`;
+  el.appendChild(r); el.scrollTop=el.scrollHeight;
+}
+function setStatus(s){
+  const m={offline:['','OFFLINE'],connecting:['','CONNECTING'],connected:['on','CONNECTED'],error:['err','ERROR'],tx:['on','ACTIVE']};
+  const[c,l]=m[s]||m.offline;
+  document.getElementById('dot').className='dot '+c;
+  document.getElementById('stxt').textContent=l;
+}
+function setQ(n){[1,2,3,4].forEach(i=>document.getElementById(`q${i}`).classList.toggle('lit',i<=n));}
+function setCB(t){const e=document.getElementById('cbadge');e.className='cbadge '+t;e.textContent=t.toUpperCase();}
+function setSStep(n){
+  [1,2,3,4].forEach(i=>{const e=document.getElementById(`ss${i}`);if(e)e.className='step'+(i<n?' done':i===n?' cur':'');});
+  [1,2,3,4].forEach(i=>{const e=document.getElementById(`s${i}`);if(e)e.classList.toggle('h',i!==n);});
+}
+function setRStep(n){
+  [1,2,3,4].forEach(i=>{const e=document.getElementById(`rs${i}`);if(e)e.className='step'+(i<n?' done':i===n?' cur':'');});
+  [1,2,3,4].forEach(i=>{const e=document.getElementById(`r${i}`);if(e)e.classList.toggle('h',i!==n);});
+}
+function fB(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';if(b<1073741824)return(b/1048576).toFixed(1)+' MB';return(b/1073741824).toFixed(2)+' GB';}
+function fS(b){return fB(Math.round(b))+'/s';}
+function flashCh(idx,pane='send'){const el=document.getElementById(`${pane==='send'?'ch':'rch'}${idx}`);if(!el)return;el.classList.add('active');setTimeout(()=>el.classList.remove('active'),80);}
+
+// ══ WEBRTC ════════════════════════════════════════════════════════════
+const ICE={iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}]};
+function mkPC(pane='send'){
+  const p=new RTCPeerConnection(ICE);
+  p.oniceconnectionstatechange=()=>{
+    const s=p.iceConnectionState; log(`ICE → ${s}`,'',pane);
+    if(s==='connected'||s==='completed'){setStatus('connected');setQ(4);setCB('direct');}
+    else if(s==='failed'){setStatus('error');setQ(0);}
+    else if(s==='checking'){setStatus('connecting');setQ(2);}
+  };
+  return p;
+}
+async function waitICE(p){
+  if(p.iceGatheringState==='complete') return;
+  return new Promise(res=>{p.addEventListener('icegatheringstatechange',()=>{if(p.iceGatheringState==='complete')res();});setTimeout(res,5000);});
+}
+function openChannels(p){
+  return Array.from({length:N_CH},(_,i)=>p.createDataChannel(`u${i}`,{negotiated:true,id:i,ordered:false,maxRetransmits:3,priority:'high'}));
+}
+function drainCh(ch){
+  if(ch.bufferedAmount<=BUF_LOW) return Promise.resolve();
+  return new Promise(res=>ch.addEventListener('bufferedamountlow',res,{once:true}));
+}
+
+// ══ SEND FLOW ═════════════════════════════════════════════════════════
+async function sCreate(){
+  const ph=phrase.trim(); if(!ph){alert('Generate or enter a phrase.');return;}
+  log('Harvesting entropy…'); keys=await deriveKeys(ph);
+  log(`Keys derived · session: ${Array.from(keys.sessionId.slice(0,4)).map(b=>b.toString(16).padStart(2,'0')).join('')}…`,'ok');
+  pc=mkPC('send'); channels=openChannels(pc);
+  channels.forEach((c,i)=>{c.binaryType='arraybuffer';c.bufferedAmountLowThreshold=BUF_LOW;c.onopen=()=>{if(i===0)log(`${N_CH} SCTP streams open · P2P ready`,'ok');};});
+  log('Creating WebRTC offer…');
+  const offer=await pc.createOffer(); await pc.setLocalDescription(offer); await waitICE(pc);
+  const enc=await encSDP(JSON.stringify({type:'offer',sdp:pc.localDescription.sdp}),keys.sigKey);
+  document.getElementById('offerOut').value=enc;
+  log('Offer ready — send to receiver','ok'); setSStep(2); setStatus('connecting');
+}
+function chkAns(){document.getElementById('btnAns').disabled=document.getElementById('ansIn').value.trim().length<10;}
+async function sAns(){
+  try{
+    const raw=document.getElementById('ansIn').value.trim();
+    const dec=await decSDP(raw,keys.sigKey); const ans=JSON.parse(dec);
+    await pc.setRemoteDescription(new RTCSessionDescription(ans));
+    log('Answer accepted','ok'); drawFP(keys.sessionId,'sFpG','sFpH'); setSStep(3);
+  }catch(e){log('Answer failed: '+e.message,'er');alert('Decryption failed. Check phrase matches.');}
+}
+function sVerOk(){log('Fingerprint confirmed ✓','ok');setSStep(4);}
+async function cpOffer(){await navigator.clipboard.writeText(document.getElementById('offerOut').value);log('Offer copied');}
+
+function dvr(e){e.preventDefault();e.currentTarget.classList.add('ov');}
+function dlv(e){e.currentTarget.classList.remove('ov');}
+function ddp(e){e.preventDefault();e.currentTarget.classList.remove('ov');if(e.dataTransfer.files[0])onFp(e.dataTransfer.files[0]);}
+function onFp(f){sendFile=f;document.getElementById('sfn').textContent=f.name;document.getElementById('sfsz').textContent=fB(f.size);document.getElementById('fInfo').classList.remove('h');document.getElementById('dz').classList.add('h');log(`File: ${f.name} · ${fB(f.size)}`);}
+function clrF(){sendFile=null;document.getElementById('fInfo').classList.add('h');document.getElementById('dz').classList.remove('h');document.getElementById('fi').value='';}
+
+async function startSend(){
+  if(!sendFile){log('No file','wn');return;}
+  if(!channels[0]||channels[0].readyState!=='open'){log('Channels not ready','wn');return;}
+  const totalChunks=Math.ceil(sendFile.size/CHUNK);
+  channels[0].send('META:'+JSON.stringify({name:sendFile.name,size:sendFile.size,totalChunks,mimeType:sendFile.type}));
+  log(`Sending ${sendFile.name} · ${totalChunks} chunks · ratcheted 4-stream pipeline`,'ok');
+  document.getElementById('fInfo').classList.add('h'); document.getElementById('sPrg').classList.remove('h');
+  sendT0=Date.now(); setStatus('tx');
+  const ratchet=new Ratchet(keys.ratchetSeed.slice());
+  let sent=0; let reader;
+  try{reader=sendFile.stream().getReader({mode:'byob'});}catch(e){reader=sendFile.stream().getReader();}
+  const readChunk=async()=>{
+    const buf=new ArrayBuffer(CHUNK); let off=0,rem=CHUNK;
+    while(rem>0){
+      let res; try{res=await reader.read(new Uint8Array(buf,off,rem));}catch(e){res=await reader.read();}
+      if(res.done)break;
+      const v=res.value instanceof Uint8Array?res.value:new Uint8Array(res.value);
+      if(off===0&&v.buffer===buf){off+=v.byteLength;rem-=v.byteLength;}
+      else{new Uint8Array(buf).set(v,off);off+=v.byteLength;rem-=v.byteLength;}
+    }
+    return off>0?buf.slice(0,off):null;
+  };
+  let lookahead=readChunk().then(d=>d?encChunk(d,ratchet,0,null):null);
+  for(let i=0;i<totalChunks;i++){
+    const ct=await lookahead; if(!ct)break;
+    if(i+1<totalChunks){const pd8=ct.slice(0,8);const nb=readChunk();lookahead=nb.then(d=>d?encChunk(d,ratchet,i+1,pd8):null);}
+    const ch=channels[i%N_CH]; await drainCh(ch);
+    const msg=new Uint8Array(4+ct.byteLength); new DataView(msg.buffer).setUint32(0,i,false); msg.set(ct,4);
+    ch.send(msg.buffer); flashCh(i%N_CH,'send');
+    sent+=Math.min(CHUNK,sendFile.size-i*CHUNK);
+    const pct=Math.round(sent/sendFile.size*100); const spd=sent/((Date.now()-sendT0)/1000);
+    document.getElementById('spb').style.width=pct+'%'; document.getElementById('spc').textContent=pct+'%';
+    document.getElementById('sspd').textContent=fS(spd); document.getElementById('seta').textContent=Math.round((sendFile.size-sent)/spd)+'s';
+    document.getElementById('schk').textContent=i+1;
+  }
+  // DONE on stream 0 only — same stream as META, no redundant signals
+  try{channels[0].send('DONE');}catch(e){}
+  ratchet.destroy(); try{reader.cancel();}catch(e){}
+  log('All chunks sent · ratchet destroyed ✓','ok'); setStatus('connected');
+  document.getElementById('sPrg').classList.add('h'); document.getElementById('sDone').classList.remove('h');
+}
+
+// ══ RECEIVE FLOW ══════════════════════════════════════════════════════
+function onRph(v){showEntr('reF','reV',v);document.getElementById('btnJoin').disabled=v.trim().length<3;}
+async function rJoin(){
+  const ph=document.getElementById('rph').value.trim(); if(!ph)return;
+  phrase=ph; log('Deriving keys…','','recv'); keys=await deriveKeys(ph);
+  log('Keys derived · ratchet ready','ok','recv'); setRStep(2);
+}
+function chkOffer(){document.getElementById('btnProc').disabled=document.getElementById('offerIn').value.trim().length<10;}
+async function rProc(){
+  try{
+    const raw=document.getElementById('offerIn').value.trim();
+    const dec=await decSDP(raw,keys.sigKey); const offer=JSON.parse(dec);
+    pc=mkPC('recv'); channels=openChannels(pc); setupRecvChannels();
+    await pc.setRemoteDescription(new RTCSessionDescription(offer));
+    const answer=await pc.createAnswer(); await pc.setLocalDescription(answer); await waitICE(pc);
+    const encAns=await encSDP(JSON.stringify({type:'answer',sdp:pc.localDescription.sdp}),keys.sigKey);
+    document.getElementById('ansOut').value=encAns; document.getElementById('rAnsS').classList.remove('h');
+    log('Answer generated · send to sender','ok','recv'); setStatus('connecting');
+    pc.addEventListener('iceconnectionstatechange',()=>{
+      if(['connected','completed'].includes(pc.iceConnectionState)){drawFP(keys.sessionId,'rFpG','rFpH');setRStep(3);}
+    });
+  }catch(e){log('Offer error: '+e.message,'er','recv');alert('Decryption failed. Check phrase.');}
+}
+async function cpAns(){await navigator.clipboard.writeText(document.getElementById('ansOut').value);log('Answer copied','','recv');}
+function rVerOk(){log('Fingerprint confirmed ✓','ok','recv');setRStep(4);}
+
+let recvPrevCt8=null; // tracks previous chunk's ciphertext prefix for hash-chain AAD
+
+function setupRecvChannels(){
+  recvMeta=null;recvSlab=null;recvBytes=0;recvT0=null;recvPend=new Map();recvNext=0;recvPrevCt8=null;
+  channels.forEach((ch,i)=>{
+    ch.binaryType='arraybuffer';
+    ch.onmessage=async e=>{
+      if(typeof e.data==='string'){
+        if(e.data.startsWith('META:')){
+          recvMeta=JSON.parse(e.data.slice(5)); recvT0=Date.now();
+          recvSlab=new Uint8Array(recvMeta.size);
+          recvRatchet=new Ratchet(keys.ratchetSeed.slice());
+          document.getElementById('rWait').classList.add('h');
+          document.getElementById('rPrg').classList.remove('h');
+          document.getElementById('rfn').textContent=recvMeta.name;
+          document.getElementById('rfsz').textContent=fB(recvMeta.size);
+          log(`Receiving: ${recvMeta.name} · pre-allocated ${fB(recvMeta.size)} slab`,'ok','recv');
+          setStatus('tx');
+        } else if(e.data==='DONE'&&i===0&&recvMeta&&recvNext>=recvMeta.totalChunks){assembleFile();}
+      } else {
+        flashCh(i,'recv');
+        const idx=new DataView(e.data).getUint32(0,false);
+        const ct=new Uint8Array(e.data).slice(4);
+        recvPend.set(idx,ct); document.getElementById('rq').textContent=recvPend.size;
+        await flushPending();
+        if(recvMeta&&recvNext>=recvMeta.totalChunks) assembleFile();
+      }
+    };
+    ch.onclose=()=>log(`Stream ${i} closed`,'wn','recv');
+    ch.onerror=()=>log(`Stream ${i} error`,'er','recv');
+  });
+}
+async function flushPending(){
+  while(recvPend.has(recvNext)&&recvRatchet&&recvSlab){
+    const idx=recvNext; const ct=recvPend.get(idx); recvPend.delete(idx);
+    try{
+      // recvPrevCt8 is the PREVIOUS chunk's ciphertext prefix — matches what sender put in AAD
+      const plain=await decChunk(ct.buffer||ct,recvRatchet,idx,recvPrevCt8);
+      // Advance chain: this chunk's ct prefix becomes next chunk's prevD8
+      recvPrevCt8=ct.slice(0,8);
+      recvSlab.set(new Uint8Array(plain),idx*CHUNK);
+      recvBytes+=plain.byteLength; recvNext++;
+      const pct=Math.round(recvBytes/recvMeta.size*100),spd=recvBytes/((Date.now()-recvT0)/1000);
+      document.getElementById('rpb').style.width=pct+'%'; document.getElementById('rpc').textContent=pct+'%';
+      document.getElementById('rspd').textContent=fS(spd); document.getElementById('rchk').textContent=recvNext;
+      document.getElementById('rq').textContent=recvPend.size;
+    }catch(err){log(`Chunk ${idx} auth failed — chain broken`,'er','recv');break;}
+  }
+}
+let assembled=false;
+function assembleFile(){
+  if(assembled||!recvSlab) return; assembled=true;
+  recvRatchet?.destroy();
+  const blob=new Blob([recvSlab],{type:recvMeta?.mimeType||'application/octet-stream'});
+  dlData={blob,name:recvMeta?.name||'received'}; recvSlab=null;
+  document.getElementById('rPrg').classList.add('h'); document.getElementById('rDone').classList.remove('h');
+  setStatus('connected'); log(`Ready: ${fB(recvBytes)} · ratchet destroyed`,'ok','recv');
+  document.getElementById('btnDl').onclick=()=>{
+    const url=URL.createObjectURL(dlData.blob);
+    Object.assign(document.createElement('a'),{href:url,download:dlData.name}).click();
+    setTimeout(()=>URL.revokeObjectURL(url),8000);
+    log('Saved to disk','ok','recv');
+  };
+}
+
+// ══ PANIC ═════════════════════════════════════════════════════════════
+function panic(){
+  if(!confirm('WIPE: Destroy all keys, sessions and in-memory data?')) return;
+  if(keys?.ratchetSeed)keys.ratchetSeed.fill(0);
+  if(keys?.sessionId)keys.sessionId.fill(0);
+  if(recvSlab)recvSlab.fill(0);
+  keys=null;sendFile=null;dlData=null;recvSlab=null;recvPend=new Map();recvRatchet?.destroy();assembled=false;
+  channels.forEach(c=>{try{c.close();}catch(e){}});channels=[];
+  try{if(pc)pc.close();}catch(e){} pc=null;
+  setStatus('offline');setQ(0);document.getElementById('cbadge').className='cbadge';document.getElementById('cbadge').textContent='';
+  log('⚠ WIPE COMPLETE — all keys zeroed','er'); log('⚠ WIPE COMPLETE','er','recv');
+  setTimeout(()=>location.reload(),1000);
+}
+
+// ══ BOOT ══════════════════════════════════════════════════════════════
+genPhrase();
+initSettings();
+log('No storage · No identity · No server · In-memory only');
+log(`4-stream SCTP · ratchet engine · hash-chain AAD`,'ok');
+</script>
+</body>
+</html>
